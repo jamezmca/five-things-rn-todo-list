@@ -18,8 +18,27 @@ function fetchFonts() {
   });
 };
 
+/* {
+  1: {
+    title: 'do work',
+    description: 'maybe later tho'
+  },
+  2: {
+
+  },
+  3: {
+
+  },
+  4: {
+
+  },
+  5: {
+
+  }
+} */
+
 export default function App() {
-  const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState({});
   const [isAddMode, setIsAddMode] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -31,14 +50,28 @@ export default function App() {
     />;
   };
 
+  const addTodoHandler = totoTitle => {
+    if (todoTitle.length === 0) {
+      return;
+    };
+    // add in functionality here
+  };
+
   return (
     <View style={styles.screen}>
       {/*use three different flex views to fit conent and adjust heights of each view */}
       <Text>5 Things</Text>
       <View style={styles.containers}>
-        <View style={styles.containerUno}><Text>Open up App.js to start working on your app!</Text></View>
-        <View style={styles.containerDos}><Text>Open up App.js to start working on your app!</Text></View>
-        <View style={styles.containerTres}><Text>Open up App.js to start working on your app!</Text></View>
+        {/* THIS WILL LIKELY MAP OVER THE ARRAY AND DEPENDING ON THE LENGTH WILL DISPLAY A DIFFERENT OUTPUT
+        <View style={styles.containerUno}>
+
+        </View>
+        <View style={styles.containerDos}>
+          
+        </View>
+        <View style={styles.containerTres}>
+          
+  </View>*/}
       </View>
       <StatusBar style="auto" />
     </View>
