@@ -15,6 +15,7 @@ import TodoInput from './components/TodoInput';
 import ScreenOne from './components/ScreenOne';
 
 //add drag and drop functionality later
+// on long press be able to drag to recycle bin and short press can edit
 
 //[true, id, title, description], [true, id, title, description]....]
 function fetchFonts() {
@@ -62,43 +63,28 @@ export default function App() {
     setIsAddMode(false);
   };
 
-  const screenChooser = (length) => {
-    if (length === 0) {
-      return;
-    } else if (length === 1) {
-      return <ScreenOne todoList={todoList}/>
-    } else if (length === 2) {
-      return <ScreenTwo todoList={todoList}/>
-    } else if (length === 3) {
-      return <ScreenThree todoList={todoList}/>
-    } else if (length === 4) {
-      return <ScreenFour todoList={todoList}/>
-    } else {
-      return <ScreenFive todoList={todoList}/>
-    }
-  }
-
   return (
     <View style={styles.screen}>
       {/*use three different flex views to fit conent and adjust heights of each view */}
       <View style={styles.header}>
-        <Text style={{ color: '#90e0ef', fontSize: 20 }}>5do.</Text>
-        <View style={{ width: '20%' }}>
-          <Button title="+" color='#144552' onPress={() => setIsAddMode(true)} />
-        </View>
+        <Text style={styles.headerText}>5do.</Text>
+
         <TodoInput visible={isAddMode} onAddTodo={addTodoHandler} onCancel={cancelTodoAdditionHandler} />
       </View>
       <View style={styles.containers}>
-        {/* THIS WILL LIKELY MAP OVER THE ARRAY AND DEPENDING ON THE LENGTH WILL DISPLAY A DIFFERENT OUTPUT
-        <View style={styles.containerUno}>
+        {todoList.length === 0 && <View style={styles.zeroTextContainer}>
+          <Button title="+" color='#144552' onPress={() => setIsAddMode(true)} />
+        </View>}
+        {todoList.length > 0 && <View style={styles.containerUno}></View>}
+        {todoList.length > 1 && <View style={styles.containerDos}></View>}
+        {todoList.length > 2 && <View style={styles.containerTres}></View>}
 
-        </View>
-        <View style={styles.containerDos}>
-          
-        </View>
-        <View style={styles.containerTres}>
-          
-  </View>*/}
+        {todoList.length !== 0 &&
+          <View style={styles.buttonContainer}>
+            <Button title="+" color='#144552' onPress={() => setIsAddMode(true)} />
+          </View>
+        }
+
       </View>
       <StatusBar style="auto" />
     </View>
@@ -112,7 +98,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'hsl(291, 30%, 6%)',
+    backgroundColor: 'hsl(180, 30%, 4%)',
     alignItems: 'center',
     padding: 20,
     paddingTop: 50
@@ -120,28 +106,29 @@ const styles = StyleSheet.create({
   header: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     width: '100%',
-    borderBottomColor: '#48cae4',
+    borderBottomColor: '#b5e48c',
     borderBottomWidth: 2,
     paddingBottom: 3
   },
+  zeroTextContainer: {
+    justifyContent: 'center',
+    width: 200
+  },
+  zeroText: {
+    color: 'white',
+    padding: 10,
+    fontSize: 20,
+  },
+  headerText: {
+    fontSize: 30,
+    color: '#7cfc00'
+  },
   containers: {
+    display: 'flex',
+    flex: 1
+  },
+  buttonContainer: {
 
-  },
-  containerUno: {
-    flex: 3,
-    borderColor: 'black',
-    borderBottomWidth: 2
-  },
-  containerDos: {
-    flex: 2,
-    borderColor: 'black',
-    borderBottomWidth: 2
-  },
-  containerTres: {
-    flex: 1,
-    borderColor: 'black',
-    borderBottomWidth: 2
   }
 });
