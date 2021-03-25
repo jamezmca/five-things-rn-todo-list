@@ -79,13 +79,14 @@ export default function App() {
         {todoList.length > 1 && <View style={styles.containerDos}></View>}
         {todoList.length > 2 && <View style={styles.containerTres}></View>}
 
-        {todoList.length !== 0 &&
-          <View style={styles.buttonContainer}>
-            <Button title="+" color='#144552' onPress={() => setIsAddMode(true)} />
-          </View>
-        }
+
 
       </View>
+      {todoList.length !== 0 &&
+        <View style={styles.buttonContainer}>
+          <Button title="+" color='#144552' onPress={() => setIsAddMode(true)} />
+        </View>
+      }
       <StatusBar style="auto" />
     </View>
   );
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderBottomColor: '#b5e48c',
     borderBottomWidth: 2,
-    paddingBottom: 3
+    paddingBottom: 3,
   },
   zeroTextContainer: {
     justifyContent: 'center',
@@ -129,6 +130,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   buttonContainer: {
-
+    width: 200
   }
 });

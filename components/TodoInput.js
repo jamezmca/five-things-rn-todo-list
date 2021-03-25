@@ -27,13 +27,16 @@ const TodoInput = props => {
     }
 
     return (
-        <Modal visible={props.visible} animationType="fade">
+        <Modal visible={props.visible} animationType="fade" transparent={true}>
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder="Title..."
                     style={styles.inputTitle}
                     onChangeText={todoInputTitleHandler}
                     value={enteredTodo}
+                    multiline={true}
+                    underlineColorAndroid="transparent"
+
                 />
                 {/*<TextInput
                     placeholder="Description..."
@@ -56,9 +59,18 @@ const TodoInput = props => {
 
 const styles = StyleSheet.create({
     inputContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1
+        margin: 10,
+        flex: 1,
+        height: 30,
+        backgroundColor: 'hsl(230, 100%, 3%)',
+        borderColor: 'hsla(90, 100%, 50%, 0.9)',
+        borderWidth: 3
+    },
+    inputTitle: {
+        color: 'white',
+        fontSize: 30,
+        padding: 30,
+        borderBottomColor: 'blue'
     }
 });
 
