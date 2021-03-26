@@ -71,6 +71,17 @@ const styles = StyleSheet.create({
         fontSize: 30,
         padding: 30,
         borderBottomColor: 'blue'
+    },
+    buttonContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: '300px',
+        borderTopWidth: '2px',
+        borderTopColor: 'white',
+        paddingVertical: 30        
+
     }
 });
 
