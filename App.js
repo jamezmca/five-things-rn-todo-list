@@ -72,21 +72,19 @@ export default function App() {
         <TodoInput visible={isAddMode} onAddTodo={addTodoHandler} onCancel={cancelTodoAdditionHandler} />
       </View>
       <View style={styles.containers}>
-        {todoList.length === 0 && <View style={styles.zeroTextContainer}>
-          <Button title="+" color='#144552' onPress={() => setIsAddMode(true)} />
-        </View>}
         {todoList.length > 0 && <View style={styles.containerUno}></View>}
         {todoList.length > 1 && <View style={styles.containerDos}></View>}
-        {todoList.length > 2 && <View style={styles.containerTres}></View>}
-
-
-
-      </View>
-      {todoList.length !== 0 &&
-        <View style={styles.buttonContainer}>
-          <Button title="+" color='#144552' onPress={() => setIsAddMode(true)} />
+        <View style={styles.lastThreeContainer}>
+          {todoList.length > 2 && <View style={styles.containerTres}></View>}
+          {todoList.length > 3 && <View style={styles.containerQuatro}></View>}
+          {todoList.length > 4 ?
+            <View style={styles.containerCinco}></View> :
+            <View style={styles.buttonContainer}>
+              <Button title="+" color='#144552' onPress={() => setIsAddMode(true)} />
+            </View>
+          }
         </View>
-      }
+      </View>
       <StatusBar style="auto" />
     </View>
   );

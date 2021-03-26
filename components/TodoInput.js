@@ -28,28 +28,31 @@ const TodoInput = props => {
 
     return (
         <Modal visible={props.visible} animationType="fade" transparent={true}>
-            <View style={styles.inputContainer}>
-                <TextInput
-                    placeholder="Title..."
-                    style={styles.inputTitle}
-                    onChangeText={todoInputTitleHandler}
-                    value={enteredTodo}
-                    multiline={true}
-                    underlineColorAndroid="transparent"
+            <View style={styles.modalScreen}>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        placeholder="Title..."
+                        placeholderTextColor='white'
+                        style={styles.inputTitle}
+                        onChangeText={todoInputTitleHandler}
+                        value={enteredTodo}
+                        multiline={true}
+                        underlineColorAndroid="transparent"
 
-                />
-                {/*<TextInput
+                    />
+                    {/*<TextInput
                     placeholder="Description..."
                     style={styles.inputDescription}
                     onChangeText={todoInputDescriptionHandler}
                     value={enteredTodo}
                 />*/}
+                </View>
                 <View style={styles.buttonContainer}>
                     <View style={styles.button}>
-                        <Button title="cancel" color="pink" onPress={props.onCancel} />
+                        <Button title="cancel" color="#80b918" onPress={props.onCancel} />
                     </View>
                     <View style={styles.button}>
-                        <Button title="add" color="pink" onPress={addTodoHandler} />
+                        <Button title="add" color="#80b918" onPress={addTodoHandler} />
                     </View>
                 </View>
             </View>
@@ -59,29 +62,41 @@ const TodoInput = props => {
 
 const styles = StyleSheet.create({
     inputContainer: {
-        margin: 10,
-        flex: 1,
+        flex: 4,
         height: 30,
-        backgroundColor: 'hsl(230, 100%, 3%)',
-        borderColor: 'hsla(90, 100%, 50%, 0.9)',
-        borderWidth: 3
+        elevation: 10,
     },
     inputTitle: {
         color: 'white',
         fontSize: 30,
         padding: 30,
-        borderBottomColor: 'blue'
+        backgroundColor: 'transparent',
+        marginVertical: 10,
+        marginHorizontal: 5,
+        borderRadius: 2,
+
     },
     buttonContainer: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        width: '300px',
-        borderTopWidth: '2px',
-        borderTopColor: 'white',
-        paddingVertical: 30        
+        borderTopWidth: 2,
+        borderTopColor: 'green',
+        paddingVertical: 5,
+        marginHorizontal: 20,
+        flex: 1
+    },
+    button: {
+        width: 100,
 
+    },
+    modalScreen: {
+        backgroundColor: 'hsl(230, 100%, 3%)',
+        borderColor: 'hsla(90, 100%, 50%, 0.9)',
+        borderWidth: 3,
+        margin: 10,
+        flex: 1
     }
 });
 
