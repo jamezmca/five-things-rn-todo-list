@@ -12,6 +12,7 @@ import {
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import TodoInput from './components/TodoInput';
+import AddButton from './components/AddButton';
 
 //add drag and drop functionality later
 // on long press be able to drag to recycle bin and short press can edit
@@ -79,10 +80,7 @@ export default function App() {
           {todoList.length > 4 ?
             <View style={styles.containerCinco}></View> :
             <View style={styles.buttonContainer}>
-              <Button
-                title="+" 
-                color='#144552' 
-                onPress={() => setIsAddMode(true)} />
+                <AddButton onPress={() => setIsAddMode(true)}>+</AddButton>
             </View>
           }
         </View>
