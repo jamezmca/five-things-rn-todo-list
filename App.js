@@ -12,7 +12,6 @@ import {
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import TodoInput from './components/TodoInput';
-import ScreenOne from './components/ScreenOne';
 
 //add drag and drop functionality later
 // on long press be able to drag to recycle bin and short press can edit
@@ -72,15 +71,18 @@ export default function App() {
         <TodoInput visible={isAddMode} onAddTodo={addTodoHandler} onCancel={cancelTodoAdditionHandler} />
       </View>
       <View style={styles.containers}>
-        {todoList.length > 0 && <View style={styles.containerUno}></View>}
-        {todoList.length > 1 && <View style={styles.containerDos}></View>}
+        <View style={styles.containerUno}></View>
+        <View style={styles.containerDos}></View>
         <View style={styles.lastThreeContainer}>
-          {todoList.length > 2 && <View style={styles.containerTres}></View>}
-          {todoList.length > 3 && <View style={styles.containerQuatro}></View>}
+          <View style={styles.containerTres}></View>
+          <View style={styles.containerQuatro}></View>
           {todoList.length > 4 ?
             <View style={styles.containerCinco}></View> :
             <View style={styles.buttonContainer}>
-              <Button title="+" color='#144552' onPress={() => setIsAddMode(true)} />
+              <Button
+                title="+" 
+                color='#144552' 
+                onPress={() => setIsAddMode(true)} />
             </View>
           }
         </View>
@@ -110,24 +112,51 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     paddingBottom: 3,
   },
-  zeroTextContainer: {
-    justifyContent: 'center',
-    width: 200
-  },
-  zeroText: {
-    color: 'white',
-    padding: 10,
-    fontSize: 20,
-  },
   headerText: {
     fontSize: 30,
     color: '#7cfc00'
   },
   containers: {
     display: 'flex',
-    flex: 1
+    flex: 1,
+    width: '100%'
   },
   buttonContainer: {
-    width: 200
+    flex: 1,
+    justifyContent: 'center',
+    fontSize: 30
+
+  },
+  containerUno: {
+    flex: 5,
+    borderWidth: 2,
+    borderColor: 'white'
+  },
+  containerDos: {
+    flex: 3,
+    borderWidth: 2,
+    borderColor: 'white'
+  },
+  lastThreeContainer: {
+    display: 'flex',
+    flex: 2,
+    borderWidth: 2,
+    borderColor: 'white',
+    flexDirection: 'row'
+  },
+  containerTres: {
+    flex: 1,
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  containerQuatro: {
+    flex: 1,
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  containerCinco: {
+    flex: 1,
+    borderWidth: 2,
+    borderColor: 'white',
   }
 });
