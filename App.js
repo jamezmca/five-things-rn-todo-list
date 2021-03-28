@@ -63,6 +63,12 @@ export default function App() {
     setIsAddMode(false);
   };
 
+  const stateToRender = todoList.map(todos => {
+    <Text key={todos.id}>{todos.value}</Text>
+  })
+ 
+  console.log(todoList)
+
   return (
     <View style={styles.screen}>
       {/*use three different flex views to fit conent and adjust heights of each view */}
