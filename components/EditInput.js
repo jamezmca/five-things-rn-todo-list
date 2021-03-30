@@ -10,7 +10,7 @@ import {
 import Colors from './Colors'
 
 const EditInput = props => {
-    const [enteredTodo, setEnteredTodo] = useState(`${props.title}`);
+    const [enteredTodo, setEnteredTodo] = useState(`${props.title}`|| 'nothing loaded');
     console.log(enteredTodo)
     //const [enteredTodoDescription, setEnteredTodoDescription] = useState('');
     // come back and make multiline description with enteredtodotitle
