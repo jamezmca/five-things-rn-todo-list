@@ -35,6 +35,7 @@ export default function App() {
   const [isAddMode, setIsAddMode] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [editContent, setEditContent] = useState('')
 
 
   if (!dataLoaded) {
@@ -55,6 +56,7 @@ export default function App() {
 
   function editTodoHandler(todoTitle) {
 
+
     setIsEditMode(false)
   }
 
@@ -74,12 +76,14 @@ export default function App() {
       <View style={styles.header}>
         <Text style={styles.headerText}>5do.</Text>
         <TodoInput visible={isAddMode} onAddTodo={addTodoHandler} onCancel={cancelTodoAdditionHandler} />
+        <EditInput visible={isEditMode} onEditTodo={editTodoHandler} title={editContent}/>
       </View>
 
       <View style={styles.containers}>
         <View style={styles.containerUno}>
           {todoList.length > 0 &&
             <TouchableOpacity onPress={() => {
+              setEditContent(todoList[0].value)
               setIsEditMode(true)
             }}>
               <Text style={{ color: Colors.greenYellow, fontSize: 30, fontFamily: 'open-sans-bold' }}>
@@ -122,7 +126,6 @@ export default function App() {
           }
         </View>
       </View>
-      <EditInput visible={isEditMode} onEditTodo={editTodoHandler}  />
       <StatusBar style="auto" />
     </View>
   );

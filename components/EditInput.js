@@ -10,7 +10,8 @@ import {
 import Colors from './Colors'
 
 const EditInput = props => {
-    const [enteredTodo, setEnteredTodo] = useState(props.title);
+    const [enteredTodo, setEnteredTodo] = useState(`${props.title}`);
+    console.log(enteredTodo)
     //const [enteredTodoDescription, setEnteredTodoDescription] = useState('');
     // come back and make multiline description with enteredtodotitle
     //
@@ -38,12 +39,6 @@ const EditInput = props => {
                         underlineColorAndroid="transparent"
 
                     />
-                    {/*<TextInput
-                    placeholder="Description..."
-                    style={styles.inputDescription}
-                    onChangeText={todoInputDescriptionHandler}
-                    value={enteredTodo}
-                />*/}
                 </View>
                 <View style={styles.buttonContainer}>
                     <View style={styles.button}>
