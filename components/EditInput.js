@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import Colors from './Colors'
 
-const TodoInput = props => {
-    const [enteredTodo, setEnteredTodo] = useState('');
+const EditInput = props => {
+    const [enteredTodo, setEnteredTodo] = useState(props.title);
     //const [enteredTodoDescription, setEnteredTodoDescription] = useState('');
     // come back and make multiline description with enteredtodotitle
     //
@@ -22,9 +22,8 @@ const TodoInput = props => {
     //     setEnteredTodo(enteredText);
     // };
 
-    function addTodoHandler() {
-        props.onAddTodo(enteredTodo);
-        setEnteredTodo('');
+    function editTodoHandler() {
+        props.onEditTodo(enteredTodo);
     }
 
     return (
@@ -32,21 +31,23 @@ const TodoInput = props => {
             <View style={styles.modalScreen}>
                 <View style={styles.inputContainer}>
                     <TextInput
-                        placeholder="Title..."
-                        placeholderTextColor='white'
                         style={styles.inputTitle}
                         onChangeText={todoInputTitleHandler}
                         value={enteredTodo}
                         multiline={true}
                         underlineColorAndroid="transparent"
+
                     />
+                    {/*<TextInput
+                    placeholder="Description..."
+                    style={styles.inputDescription}
+                    onChangeText={todoInputDescriptionHandler}
+                    value={enteredTodo}
+                />*/}
                 </View>
                 <View style={styles.buttonContainer}>
                     <View style={styles.button}>
-                        <Button title="cancel" color={Colors.purpleD} onPress={props.onCancel} />
-                    </View>
-                    <View style={styles.button}>
-                        <Button title="add" color={Colors.purpleD} onPress={addTodoHandler} />
+                        <Button title="edit" color={Colors.purpleD} onPress={editTodoHandler} />
                     </View>
                 </View>
             </View>
@@ -93,4 +94,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TodoInput;
+export default EditInput;

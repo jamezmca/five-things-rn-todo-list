@@ -20,25 +20,24 @@ const AddButton = (props) => {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: Colors.buttonBackground,
+        backgroundColor: Colors.greenE,
         paddingVertical: 12,
         paddingHorizontal: 12,
-        borderRadius: 2,
+        borderRadius: 7,
         borderWidth: 2,
-        borderColor: 'green',
+        borderColor: Colors.purpleA,
         alignSelf: 'center',
         width: 75,
         height: 75,
         justifyContent: 'center'
     },
     buttonText: {
-        color: Colors.buttonText,
+        color: Colors.greenYellow,
         fontFamily: 'open-sans',
         fontSize: 40,
         alignSelf: 'center'
     },
     buttonContainer: {
-        borderRadius: 2,
         overflow: 'hidden',
         display: 'flex',
     }

@@ -7,21 +7,26 @@ import {
   Button,
   TextInput,
   ScrollView,
-  Alert
+  Alert,
+  TouchableOpacity,
+  SafeAreaView
 } from 'react-native';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import TodoInput from './components/TodoInput';
 import AddButton from './components/AddButton';
+import Colors from './components/Colors'
+import EditInput from './components/EditInput'
 
 //add drag and drop functionality later
 // on long press be able to drag to recycle bin and short press can edit
+// add an undo button too
 
 //[true, id, title, description], [true, id, title, description]....]
 function fetchFonts() {
   return Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
-    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+    'open-sans-bold': require('./assets/fonts/LifeCraft_Font.ttf')
   });
 };
 
@@ -29,6 +34,8 @@ export default function App() {
   const [todoList, setTodoList] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+
 
   if (!dataLoaded) {
     return <AppLoading
@@ -42,16 +49,14 @@ export default function App() {
     if (todoTitle.length === 0) {
       return;
     };
-    // if (todoList.length > 2) {
-    //   Alert.alert('Maximum of 5 todo items!', [{ text: 'Sorry!', style: 'cancel' }]);
-    //   //setIsAddMode(false);
-    //   return;
-    // } else {
     setTodoList(currentTodos => [...todoList, { id: Math.random().toString(), value: todoTitle }]);
-    //}
-    console.log(todoList)
     setIsAddMode(false);
   };
+
+  function editTodoHandler(todoTitle) {
+
+    setIsEditMode(false)
+  }
 
   function removeTodoHandler(todoId) {
     setTodoList(currentTodos => {
@@ -63,34 +68,61 @@ export default function App() {
     setIsAddMode(false);
   };
 
-  const stateToRender = todoList.map(todos => {
-    <Text key={todos.id}>{todos.value}</Text>
-  })
- 
-  console.log(todoList)
 
   return (
     <View style={styles.screen}>
-      {/*use three different flex views to fit conent and adjust heights of each view */}
       <View style={styles.header}>
         <Text style={styles.headerText}>5do.</Text>
-
         <TodoInput visible={isAddMode} onAddTodo={addTodoHandler} onCancel={cancelTodoAdditionHandler} />
       </View>
+
       <View style={styles.containers}>
-        <View style={styles.containerUno}></View>
-        <View style={styles.containerDos}></View>
+        <View style={styles.containerUno}>
+          {todoList.length > 0 &&
+            <TouchableOpacity onPress={() => {
+              setIsEditMode(true)
+            }}>
+              <Text style={{ color: Colors.greenYellow, fontSize: 30, fontFamily: 'open-sans-bold' }}>
+                {todoList[0].value.toUpperCase()}
+              </Text>
+            </TouchableOpacity>}
+        </View>
+
+        <View style={styles.containerDos}>
+          {todoList.length > 1 &&
+            <Text style={{ color: Colors.greenYellow, fontSize: 25, fontFamily: 'open-sans-bold' }}>
+              {todoList[1].value.toUpperCase()}
+            </Text>}
+        </View>
+
         <View style={styles.lastThreeContainer}>
-          <View style={styles.containerTres}></View>
-          <View style={styles.containerQuatro}></View>
-          {todoList.length > 4 ?
-            <View style={styles.containerCinco}></View> :
-            <View style={styles.buttonContainer}>
-                <AddButton onPress={() => setIsAddMode(true)}>+</AddButton>
-            </View>
+          <View style={styles.containerTres}>
+            {todoList.length > 2 &&
+              <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
+                {todoList[2].value.toUpperCase()}
+              </Text>}
+          </View>
+
+          <View style={styles.containerQuatro}>
+            {todoList.length > 3 &&
+              <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
+                {todoList[3].value.toUpperCase()}
+              </Text>}
+          </View>
+          {
+            todoList.length > 4 ?
+              <View style={styles.containerCinco}>
+                <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
+                  {todoList[4].value.toUpperCase()}
+                </Text>
+              </View> :
+              <View style={styles.buttonContainer}>
+                <AddButton onPress={() => { setIsAddMode(true) }}>+</AddButton>
+              </View>
           }
         </View>
       </View>
+      <EditInput visible={isEditMode} onEditTodo={editTodoHandler}  />
       <StatusBar style="auto" />
     </View>
   );
@@ -113,12 +145,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     borderBottomColor: '#b5e48c',
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     paddingBottom: 3,
   },
   headerText: {
-    fontSize: 30,
-    color: '#7cfc00'
+    fontSize: 45,
+    color: Colors.greenF,
+    fontFamily: 'open-sans-bold'
   },
   containers: {
     display: 'flex',
@@ -129,12 +162,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     fontSize: 30
-
   },
   containerUno: {
     flex: 5,
     borderWidth: 2,
-    borderColor: 'white'
+    borderColor: 'white',
+    display: 'flex',
+
   },
   containerDos: {
     flex: 3,
