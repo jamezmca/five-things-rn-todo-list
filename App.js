@@ -76,14 +76,15 @@ export default function App() {
       <View style={styles.header}>
         <Text style={styles.headerText}>5do.</Text>
         <TodoInput visible={isAddMode} onAddTodo={addTodoHandler} onCancel={cancelTodoAdditionHandler} />
-        <EditInput visible={isEditMode} onEditTodo={editTodoHandler} title={editContent}/>
+        <EditInput visible={isEditMode} onEditTodo={editTodoHandler} title={editContent} />
       </View>
 
       <View style={styles.containers}>
         <View style={styles.containerUno}>
           {todoList.length > 0 &&
             <TouchableOpacity onPress={() => {
-              setEditContent(todoList[0].value)
+              setEditContent(() => todoList[0].value)
+              console.log(editContent)
               setIsEditMode(true)
             }}>
               <Text style={{ color: Colors.greenYellow, fontSize: 30, fontFamily: 'open-sans-bold' }}>

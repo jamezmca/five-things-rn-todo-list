@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -9,9 +9,12 @@ import {
 } from 'react-native';
 import Colors from './Colors'
 
-const EditInput = props => {
-    const [enteredTodo, setEnteredTodo] = useState(`${props.title}`|| 'nothing loaded');
-    console.log(enteredTodo)
+const EditInput = (props) => {
+    const [enteredTodo, setEnteredTodo] = useState(`${props.title}` || 'nothing loaded');
+
+    useEffect(() => {
+        setEnteredTodo(props.title)
+    },[props.visible])
     //const [enteredTodoDescription, setEnteredTodoDescription] = useState('');
     // come back and make multiline description with enteredtodotitle
     //
