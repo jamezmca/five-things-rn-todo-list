@@ -13,7 +13,7 @@ const EditInput = (props) => {
     const [enteredTodo, setEnteredTodo] = useState('');
 
     useEffect(() => {
-        setEnteredTodo(props.title)
+        setEnteredTodo(props.title.value)
     },[props.visible])
     //const [enteredTodoDescription, setEnteredTodoDescription] = useState('');
     // come back and make multiline description with enteredtodotitle

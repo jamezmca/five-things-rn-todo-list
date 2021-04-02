@@ -32,10 +32,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     buttonText: {
-        color: Colors.greenYellow,
+        color: 'black',
         fontFamily: 'open-sans',
         fontSize: 40,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        textShadowColor: Colors.greenF,
+        textShadowOffset: { width: 0, height: 0 },
+        textShadowRadius: 15,
     },
     buttonContainer: {
         overflow: 'hidden',

@@ -55,8 +55,8 @@ export default function App() {
   };
 
   function editTodoHandler(todoTitle) {
-    
-
+    let newArr = todoList.map((e) => editContent.id === e.id ? { id: editContent.id, value: todoTitle } : e)
+    setTodoList(newArr)
     setIsEditMode(false)
   }
 
@@ -83,8 +83,7 @@ export default function App() {
         <View style={styles.containerUno}>
           {todoList.length > 0 &&
             <TouchableOpacity onPress={() => {
-              setEditContent(() => todoList[0].value)
-              console.log(editContent)
+              setEditContent(() => todoList[0])
               setIsEditMode(true)
             }}>
               <Text style={{ color: Colors.greenYellow, fontSize: 30, fontFamily: 'open-sans-bold' }}>
@@ -95,31 +94,51 @@ export default function App() {
 
         <View style={styles.containerDos}>
           {todoList.length > 1 &&
-            <Text style={{ color: Colors.greenYellow, fontSize: 25, fontFamily: 'open-sans-bold' }}>
-              {todoList[1].value.toUpperCase()}
-            </Text>}
+            <TouchableOpacity onPress={() => {
+              setEditContent(() => todoList[1])
+              setIsEditMode(true)
+            }}>
+              <Text style={{ color: Colors.greenYellow, fontSize: 25, fontFamily: 'open-sans-bold' }}>
+                {todoList[1].value.toUpperCase()}
+              </Text>
+            </TouchableOpacity>}
         </View>
 
         <View style={styles.lastThreeContainer}>
           <View style={styles.containerTres}>
             {todoList.length > 2 &&
-              <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
-                {todoList[2].value.toUpperCase()}
-              </Text>}
+              <TouchableOpacity onPress={() => {
+                setEditContent(() => todoList[2])
+                setIsEditMode(true)
+              }}>
+                <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
+                  {todoList[2].value.toUpperCase()}
+                </Text>
+              </TouchableOpacity>}
           </View>
 
           <View style={styles.containerQuatro}>
             {todoList.length > 3 &&
-              <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
-                {todoList[3].value.toUpperCase()}
-              </Text>}
+              <TouchableOpacity onPress={() => {
+                setEditContent(() => todoList[3])
+                setIsEditMode(true)
+              }}>
+                <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
+                  {todoList[3].value.toUpperCase()}
+                </Text>
+              </TouchableOpacity>}
           </View>
           {
             todoList.length > 4 ?
               <View style={styles.containerCinco}>
-                <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
-                  {todoList[4].value.toUpperCase()}
-                </Text>
+                <TouchableOpacity onPress={() => {
+                  setEditContent(() => todoList[4])
+                  setIsEditMode(true)
+                }}>
+                  <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
+                    {todoList[4].value.toUpperCase()}
+                  </Text>
+                </TouchableOpacity>
               </View> :
               <View style={styles.buttonContainer}>
                 <AddButton onPress={() => { setIsAddMode(true) }}>+</AddButton>
@@ -153,9 +172,12 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
   },
   headerText: {
-    fontSize: 45,
-    color: Colors.greenF,
-    fontFamily: 'open-sans-bold'
+    fontSize: 60,
+    color: Colors.darkGrey,
+    fontFamily: 'open-sans-bold',
+    textShadowColor: Colors.greenF,
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 20,
   },
   containers: {
     display: 'flex',
