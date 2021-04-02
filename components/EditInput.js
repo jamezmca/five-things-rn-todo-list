@@ -10,7 +10,7 @@ import {
 import Colors from './Colors'
 
 const EditInput = (props) => {
-    const [enteredTodo, setEnteredTodo] = useState(`${props.title}` || 'nothing loaded');
+    const [enteredTodo, setEnteredTodo] = useState('');
 
     useEffect(() => {
         setEnteredTodo(props.title)

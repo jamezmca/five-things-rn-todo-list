@@ -55,7 +55,7 @@ export default function App() {
   };
 
   function editTodoHandler(todoTitle) {
-
+    
 
     setIsEditMode(false)
   }
