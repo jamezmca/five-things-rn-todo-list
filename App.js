@@ -63,12 +63,14 @@ export default function App() {
   }
 
   const DeleteButton = (props) => {
-    console.log(props.id)
+    console.log(todoList)
     return (
       <TouchableOpacity onPress={() => {
-        setTodoList(todolist => {
-          return todoList.filter((todo) => todo.id !== props.id)
-        })
+        let secondArray = todoList.reduce((newList, todo) => {
+          todo.id !== props.id && newList.push({id: newList.length, value: todo.value})
+          return newList
+        }, [])
+        setTodoList(secondArray)
       }}>
         <Text style={TextStyles.minus}>x</Text>
       </TouchableOpacity>
