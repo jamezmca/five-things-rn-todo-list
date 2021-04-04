@@ -37,7 +37,7 @@ export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editContent, setEditContent] = useState('')
-  const [toBeDeletedID, setToBeDeletedID] = useState('')
+  const [showDelete, setShowDelete] = useState(true)
 
 
   if (!dataLoaded) {
@@ -88,7 +88,7 @@ export default function App() {
       <EditInput visible={isEditMode} onEditTodo={editTodoHandler} title={editContent} />
       <View style={styles.header}>
         <Text style={styles.headerText}>5do.</Text>
-        <TouchableOpacity onPress={() => { }}><Text style={TextStyles.delete}>delete</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => {setShowDelete(!showDelete)}}><Text style={showDelete ? TextStyles.deleteRed : TextStyles.deleteGreen}>delete</Text></TouchableOpacity>
       </View>
 
       <View style={styles.containers}>
@@ -102,7 +102,7 @@ export default function App() {
                 {todoList[0].value.toUpperCase()}
               </Text>
             </TouchableOpacity>}
-          <DeleteButton id={todoList[0]?.id} />
+          {showDelete && <DeleteButton id={todoList[0]?.id} />}
         </View>
 
         <View style={styles.containerDos}>
