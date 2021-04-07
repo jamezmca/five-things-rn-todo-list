@@ -33,6 +33,7 @@ export default {
     ,
     greenYellow: 'rgb(242, 246, 107)',
     darkGrey: '#1b1b1b',
-    darkerGrey: '#333533'
+    darkerGrey: '#333533',
+    darkestGrey: '#2a2a2a'
     
 }

@@ -10,7 +10,8 @@ import {
   Alert,
   TouchableOpacity,
   SafeAreaView,
-  PanResponder
+  PanResponder,
+  Animated
 } from 'react-native';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
@@ -39,7 +40,45 @@ export default function App() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editContent, setEditContent] = useState('')
   const [showDelete, setShowDelete] = useState(false)
+  const [draggable, setDraggable] = useState(false)
 
+  const panResponder = React.useRef(
+    PanResponder.create({
+      // Ask to be the responder:
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) =>
+        true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) =>
+        true,
+
+      onPanResponderGrant: (evt, gestureState) => {
+        // The gesture has started. Show visual feedback so the user knows
+        // what is happening!
+        // gestureState.d{x,y} will be set to zero now
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        // The most recent move distance is gestureState.move{X,Y}
+        // The accumulated gesture distance since becoming responder is
+        // gestureState.d{x,y}
+      },
+      onPanResponderTerminationRequest: (evt, gestureState) =>
+        true,
+      onPanResponderRelease: (evt, gestureState) => {
+        // The user has released all touches while this view is the
+        // responder. This typically means a gesture has succeeded
+      },
+      onPanResponderTerminate: (evt, gestureState) => {
+        // Another component has become the responder, so this gesture
+        // should be cancelled
+      },
+      onShouldBlockNativeResponder: (evt, gestureState) => {
+        // Returns whether this component should block native components from becoming the JS
+        // responder. Returns true by default. Is currently only supported on android.
+        return true;
+      }
+    })
+  ).current;
 
   if (!dataLoaded) {
     return <AppLoading
@@ -49,7 +88,9 @@ export default function App() {
     />;
   };
 
-  
+  function reset() {
+    setDraggable(false)
+  }
 
   const addTodoHandler = todoTitle => {
     if (todoTitle.length === 0) {
@@ -69,7 +110,7 @@ export default function App() {
     return (
       <TouchableOpacity onPress={() => {
         let secondArray = todoList.reduce((newList, todo) => {
-          todo.id !== props.id && newList.push({id: newList.length, value: todo.value})
+          todo.id !== props.id && newList.push({ id: newList.length, value: todo.value })
           return newList
         }, [])
         setTodoList(secondArray)
@@ -83,89 +124,90 @@ export default function App() {
     setIsAddMode(false);
   };
 
-
-  
-
-
   return (
-    <View style={styles.screen}>
-      <TodoInput visible={isAddMode} onAddTodo={addTodoHandler} onCancel={cancelTodoAdditionHandler} />
-      <EditInput visible={isEditMode} onEditTodo={editTodoHandler} title={editContent} />
-      <View style={styles.header}>
-        <Text style={styles.headerText}>5do.</Text>
-        <TouchableOpacity onPress={() => {setShowDelete(!showDelete)}}><Text style={showDelete ? TextStyles.deleteRed : TextStyles.deleteGreen}>delete</Text></TouchableOpacity>
-      </View>
-
-      <View style={styles.containers}>
-        <View style={styles.containerUno}>
-          {todoList.length > 0 &&
-            <TouchableOpacity onPress={() => {
-              setEditContent(() => todoList[0])
-              setIsEditMode(true)
-            }}>
-              <Text style={{ color: Colors.greenYellow, fontSize: 30, fontFamily: 'open-sans-bold' }}>
-                {todoList[0].value.toUpperCase()}
-              </Text>
-            </TouchableOpacity>}
-          {showDelete && <DeleteButton id={todoList[0]?.id} />}
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.screen}>
+        <TodoInput visible={isAddMode} onAddTodo={addTodoHandler} onCancel={cancelTodoAdditionHandler} />
+        <EditInput visible={isEditMode} onEditTodo={editTodoHandler} title={editContent} />
+        <View style={styles.header}>
+          <Text style={styles.headerText}>5do.</Text>
+          <TouchableOpacity onPress={() => { setShowDelete(!showDelete) }}><Text style={showDelete ? TextStyles.deleteRed : TextStyles.deleteGreen}>delete</Text></TouchableOpacity>
         </View>
 
-        <View style={styles.containerDos}>
-          {todoList.length > 1 &&
-            <TouchableOpacity onPress={() => {
-              setEditContent(() => todoList[1])
-              setIsEditMode(true)
-            }}>
-              <Text style={{ color: Colors.greenYellow, fontSize: 25, fontFamily: 'open-sans-bold' }}>
-                {todoList[1].value.toUpperCase()}
-              </Text>
-            </TouchableOpacity>}
-        </View>
-
-        <View style={styles.lastThreeContainer}>
-          <View style={styles.containerTres}>
-            {todoList.length > 2 &&
+        <View style={styles.containers}>
+          <View style={styles.containerUno}>
+            {todoList.length > 0 &&
               <TouchableOpacity onPress={() => {
-                setEditContent(() => todoList[2])
+                setEditContent(() => todoList[0])
                 setIsEditMode(true)
-              }}>
-                <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
-                  {todoList[2].value.toUpperCase()}
+              }} style={{flex: 1}}>
+                <Text style={{ color: Colors.greenYellow, fontSize: 30, fontFamily: 'open-sans-bold'}}>
+                  {todoList[0].value.toUpperCase()}
                 </Text>
               </TouchableOpacity>}
+            {showDelete && <DeleteButton id={todoList[0]?.id} />}
+            {todoList.length > 1 && <Text style={{color: Colors.greenC, alignSelf: 'center', fontSize: 30}}>. . . . .</Text>}
           </View>
 
-          <View style={styles.containerQuatro}>
-            {todoList.length > 3 &&
+          <View style={styles.containerDos}>
+            {todoList.length > 1 &&
               <TouchableOpacity onPress={() => {
-                setEditContent(() => todoList[3])
+                setEditContent(() => todoList[1])
                 setIsEditMode(true)
-              }}>
-                <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
-                  {todoList[3].value.toUpperCase()}
+              }} style={{flex: 1}}>
+                <Text style={{ color: Colors.greenYellow, fontSize: 25, fontFamily: 'open-sans-bold' }}>
+                  {todoList[1].value.toUpperCase()}
                 </Text>
               </TouchableOpacity>}
+              {todoList.length > 2 && <Text style={{color: Colors.greenC, alignSelf: 'center', fontSize: 30}}>. . .</Text>}
+
           </View>
-          {
-            todoList.length > 4 ?
-              <View style={styles.containerCinco}>
+
+          <View style={styles.lastThreeContainer}>
+            <View style={styles.containerTres}>
+              {todoList.length > 2 &&
                 <TouchableOpacity onPress={() => {
-                  setEditContent(() => todoList[4])
+                  setEditContent(() => todoList[2])
                   setIsEditMode(true)
                 }}>
                   <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
-                    {todoList[4].value.toUpperCase()}
+                    {todoList[2].value.toUpperCase()}
                   </Text>
-                </TouchableOpacity>
-              </View> :
-              <View style={styles.buttonContainer}>
-                <AddButton onPress={() => { setIsAddMode(true) }}>+</AddButton>
-              </View>
-          }
+                </TouchableOpacity>}
+            </View>
+
+            <View style={styles.containerQuatro}>
+              {todoList.length > 3 &&
+                <TouchableOpacity onPress={() => {
+                  setEditContent(() => todoList[3])
+                  setIsEditMode(true)
+                }}>
+                  <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
+                    {todoList[3].value.toUpperCase()}
+                  </Text>
+                </TouchableOpacity>}
+            </View>
+            {
+              todoList.length > 4 ?
+                <View style={styles.containerCinco}>
+                  <TouchableOpacity onPress={() => {
+                    setEditContent(() => todoList[4])
+                    setIsEditMode(true)
+                  }}>
+                    <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
+                      {todoList[4].value.toUpperCase()}
+                    </Text>
+                  </TouchableOpacity>
+                </View> :
+                <View style={styles.buttonContainer}>
+                  <AddButton onPress={() => { setIsAddMode(true) }}>+</AddButton>
+                </View>
+            }
+          </View>
         </View>
+        <StatusBar style="auto" />
       </View>
-      <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -211,36 +253,27 @@ const styles = StyleSheet.create({
   },
   containerUno: {
     flex: 5,
-    borderWidth: 2,
-    borderColor: 'white',
     display: 'flex',
+    marginTop: 5
 
   },
   containerDos: {
     flex: 3,
-    borderWidth: 2,
-    borderColor: 'white'
+    marginTop: 5
   },
   lastThreeContainer: {
     display: 'flex',
     flex: 2,
-    borderWidth: 2,
-    borderColor: 'white',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 5
   },
   containerTres: {
     flex: 1,
-    borderWidth: 2,
-    borderColor: 'white',
   },
   containerQuatro: {
     flex: 1,
-    borderWidth: 2,
-    borderColor: 'white',
   },
   containerCinco: {
     flex: 1,
-    borderWidth: 2,
-    borderColor: 'white',
   }
 });

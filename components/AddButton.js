@@ -20,21 +20,21 @@ const AddButton = (props) => {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: Colors.greenE,
+        backgroundColor: Colors.darkGrey,
         paddingVertical: 12,
         paddingHorizontal: 12,
         borderRadius: 7,
         borderWidth: 2,
-        borderColor: Colors.purpleA,
+        borderColor: Colors.greenB,
         alignSelf: 'center',
         width: 75,
         height: 75,
         justifyContent: 'center'
     },
     buttonText: {
-        color: 'black',
+        color: Colors.greenE,
         fontFamily: 'open-sans',
-        fontSize: 40,
+        fontSize: 50,
         alignSelf: 'center',
         textShadowColor: Colors.greenF,
         textShadowOffset: { width: 0, height: 0 },
