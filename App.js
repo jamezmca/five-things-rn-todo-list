@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,8 @@ import {
   ScrollView,
   Alert,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  PanResponder
 } from 'react-native';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
@@ -37,7 +38,7 @@ export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editContent, setEditContent] = useState('')
-  const [showDelete, setShowDelete] = useState(true)
+  const [showDelete, setShowDelete] = useState(false)
 
 
   if (!dataLoaded) {
@@ -47,6 +48,8 @@ export default function App() {
       onError={(err) => console.log(err)}
     />;
   };
+
+  
 
   const addTodoHandler = todoTitle => {
     if (todoTitle.length === 0) {
@@ -63,7 +66,6 @@ export default function App() {
   }
 
   const DeleteButton = (props) => {
-    console.log(todoList)
     return (
       <TouchableOpacity onPress={() => {
         let secondArray = todoList.reduce((newList, todo) => {
@@ -80,6 +82,9 @@ export default function App() {
   function cancelTodoAdditionHandler() {
     setIsAddMode(false);
   };
+
+
+  
 
 
   return (
