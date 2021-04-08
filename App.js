@@ -85,6 +85,39 @@ export default function App() {
     )
   }
 
+  function UpArrow(props) {
+    if (props.id ===0 ) return null
+    return (
+      <TouchableOpacity onPress={() => {
+        let secondArray = todoList
+        secondArray[props.id + 1] = todoList[props.id]
+        secondArray[props.id] = todoList[props.id + 1]
+        setTodoList(secondArray)
+      }}>
+        <Text style={{ ...TextStyles.minus }}>^</Text>
+      </TouchableOpacity>
+    )
+  }
+
+  function DownArrow(props) {
+    let id2 = parseInt(props.id)
+    if (props.id === 4 ) return null
+    return (
+      <TouchableOpacity onPress={() => {
+        let secondArray = todoList
+        secondArray[id2 - 1] = todoList[props.id]
+        console.log(secondArray[id2 - 1] + todoList[props.id])
+        secondArray[props.id] = todoList[id2 - 1]
+        //console.log(secondArray[id2+1])
+        setTodoList(secondArray)
+      }}>
+        <Text style={{ ...TextStyles.minus }}>v</Text>
+      </TouchableOpacity>
+    )
+  }
+
+
+  //add in delete/shift content component and return null if delete is off
   function cancelTodoAdditionHandler() {
     setIsAddMode(false);
   };
@@ -105,7 +138,7 @@ export default function App() {
         <EditInput visible={isEditMode} onEditTodo={editTodoHandler} title={editContent} />
         <View style={styles.header}>
           <Text style={styles.headerText}>5do.</Text>
-          <TouchableOpacity onPress={() => { setShowDelete(!showDelete) }}><Text style={showDelete ? TextStyles.deleteRed : TextStyles.deleteGreen}>delete</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => { setShowDelete(!showDelete) }}><Text style={showDelete ? TextStyles.deleteRed : TextStyles.deleteGreen}>shift/delete</Text></TouchableOpacity>
         </View>
 
         <View style={styles.containers}>
@@ -122,6 +155,8 @@ export default function App() {
                     {todoList[0].value.toUpperCase()}
                   </Text>
                 </TouchableOpacity>
+                <DownArrow id={todoList[0]?.id}/>
+                <UpArrow />
                 {showDelete && <DeleteButton id={todoList[0]?.id} />}
               </View>}
             {todoList.length > 1 && <Text style={{ color: Colors.greenC, alignSelf: 'center', fontSize: 30 }}>. . . . .</Text>}
