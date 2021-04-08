@@ -45,7 +45,7 @@ const EditInput = (props) => {
                 </View>
                 <View style={styles.buttonContainer}>
                     <View style={styles.button}>
-                        <Button title="edit" color={Colors.purpleD} onPress={editTodoHandler} />
+                        <Button title="edit" color={Colors.darkerGrey} onPress={editTodoHandler} />
                     </View>
                 </View>
             </View>
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        borderTopWidth: 1,
-        borderTopColor: Colors.greenE,
+        borderTopWidth: 2,
+        borderTopColor: Colors.greenF,
         paddingVertical: 5,
         marginHorizontal: 20,
         flex: 1
@@ -84,11 +84,12 @@ const styles = StyleSheet.create({
         width: 100,
     },
     modalScreen: {
-        backgroundColor: Colors.purpleA,
-        borderColor: Colors.greenG,
+        backgroundColor: Colors.darkGrey,
+        borderColor: Colors.greenB,
         borderWidth: 1,
         margin: 15,
-        flex: 1
+        flex: 1, 
+        borderRadius: 5
     }
 });
 
