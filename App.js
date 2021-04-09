@@ -20,6 +20,8 @@ import AddButton from './components/AddButton';
 import Colors from './components/Colors'
 import EditInput from './components/EditInput'
 import TextStyles from './components/TextStyles'
+import { Ionicons } from '@expo/vector-icons';
+
 
 //add drag and drop functionality later
 // on long press be able to drag to recycle bin and short press can edit
@@ -58,7 +60,7 @@ export default function App() {
     if (todoTitle.length === 0) {
       return;
     };
-    setTodoList(currentTodos => [...todoList, { id: (todoList.length).toString(), value: todoTitle }]);
+    setTodoList(currentTodos => [...todoList, { id: (todoList.length), value: todoTitle }]);
     setIsAddMode(false);
   };
 
@@ -80,38 +82,25 @@ export default function App() {
         }, [])
         setTodoList(secondArray)
       }}>
-        <Text style={{ ...TextStyles.minus }}>x</Text>
+        <Text style={{ ...TextStyles.minus }}><Ionicons name="close" size={30} /></Text>
       </TouchableOpacity>
     )
   }
 
-  const DownArrow = props => {
-    if (props.id === 4 ) return null
+  const DownArrow = ({id}) => {
+    if (id === 4) return null
     return (
       <TouchableOpacity onPress={() => {
-
+        setTodoList(todoList.map((e) => {
+          return e.id === id ? {id: e.id, value: todoList[id+1].value} : e.id === (id+1) ? {id: e.id, value: todoList[id].value} : {id: e.id, value: e.value}}))
       }}>
-        <Text style={{ ...TextStyles.minus }}>v</Text>
+        <Text style={{...TextStyles.upDown}}><Ionicons name="chevron-down-outline" size={30} /></Text>
       </TouchableOpacity>
     )
-  }
-
-  function swapDown(id) {
-    let copyArr = todoList
-    copyArr[id].value = todoList[id + 1].value
-    copyArr[id + 1].value = todoList[id].value
-    return copyArr
-  }
-
-  function swapUp(id) {
-    let copyArr = todoList
-    copyArr[id].value = todoList[id - 1].value
-    copyArr[id - 1].value = todoList[id].value
-    return copyArr
   }
 
   const UpArrow = props => {
-    if (props.id === 0 ) return null
+    if (props.id === 0) return null
     return (
       <TouchableOpacity onPress={() => {
 
@@ -120,7 +109,6 @@ export default function App() {
       </TouchableOpacity>
     )
   }
-
 
   //add in delete/shift content component and return null if delete is off
   function cancelTodoAdditionHandler() {
@@ -143,7 +131,7 @@ export default function App() {
         <EditInput visible={isEditMode} onEditTodo={editTodoHandler} title={editContent} />
         <View style={styles.header}>
           <Text style={styles.headerText}>5do.</Text>
-          <TouchableOpacity onPress={() => { setShowDelete(!showDelete) }}><Text style={showDelete ? TextStyles.deleteRed : TextStyles.deleteGreen}>shift/delete</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => { setShowDelete(!showDelete) }}><Text style={showDelete ? TextStyles.deleteRed : TextStyles.deleteGreen}>overhaul</Text></TouchableOpacity>
         </View>
 
         <View style={styles.containers}>
@@ -160,7 +148,7 @@ export default function App() {
                     {todoList[0].value.toUpperCase()}
                   </Text>
                 </TouchableOpacity>
-                <DownArrow id={todoList[0]?.id} />
+                <DownArrow id={todoList[0]?.id}/>
 
                 {showDelete && <DeleteButton id={todoList[0]?.id} />}
               </View>}
