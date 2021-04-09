@@ -21,6 +21,7 @@ import Colors from './components/Colors'
 import EditInput from './components/EditInput'
 import TextStyles from './components/TextStyles'
 import { Ionicons } from '@expo/vector-icons';
+import Overhaul from './components/Overhaul';
 
 
 //add drag and drop functionality later
@@ -87,26 +88,28 @@ export default function App() {
     )
   }
 
-  const DownArrow = ({id}) => {
+  const DownArrow = ({ id }) => {
     if (id === 4) return null
     return (
       <TouchableOpacity onPress={() => {
         setTodoList(todoList.map((e) => {
-          return e.id === id ? {id: e.id, value: todoList[id+1].value} : e.id === (id+1) ? {id: e.id, value: todoList[id].value} : {id: e.id, value: e.value}}))
+          return e.id === id ? { id: e.id, value: todoList[id + 1].value } : e.id === (id + 1) ? { id: e.id, value: todoList[id].value } : { id: e.id, value: e.value }
+        }))
       }}>
-        <Text style={{...TextStyles.upDown}}><Ionicons name="chevron-down-outline" size={30} /></Text>
+        <Text style={{ ...TextStyles.upDown }}><Ionicons name="chevron-down-outline" size={30} /></Text>
       </TouchableOpacity>
     )
   }
 
-  const UpArrow = ({id}) => {
+  const UpArrow = ({ id }) => {
     if (id === 0) return null
     return (
       <TouchableOpacity onPress={() => {
         setTodoList(todoList.map((e) => {
-          return e.id === id ? {id: e.id, value: todoList[id-1].value} : e.id === (id-1) ? {id: e.id, value: todoList[id].value} : {id: e.id, value: e.value}}))
+          return e.id === id ? { id: e.id, value: todoList[id - 1].value } : e.id === (id - 1) ? { id: e.id, value: todoList[id].value } : { id: e.id, value: e.value }
+        }))
       }}>
-        <Text style={{...TextStyles.upDown}}><Ionicons name="chevron-up-outline" size={30} /></Text>
+        <Text style={{ ...TextStyles.upDown }}><Ionicons name="chevron-up-outline" size={30} /></Text>
       </TouchableOpacity>
     )
   }
@@ -140,19 +143,20 @@ export default function App() {
           {/*CONTAINER ONE CONTAINER ONE CONTAINER ONE CONTAINER ONE */}
           <View style={styles.containerUno}>
             {todoList.length > 0 &&
-              <View style={styles.containerHeader}>
-                <TouchableOpacity onPress={() => {
-                  setEditContent(() => todoList[0])
-                  setIsEditMode(true)
-                }} style={{ flex: 1, paddingTop: 2 }}>
-                  <Text style={{ color: Colors.greenYellow, fontSize: 30, fontFamily: 'open-sans-bold' }}>
-                    {todoList[0].value.toUpperCase()}
-                  </Text>
-                </TouchableOpacity>
-                <DownArrow id={todoList[0]?.id}/>
-
-                {showDelete && <DeleteButton id={todoList[0]?.id} />}
+              <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
+                <Overhaul id={todoList[0]?.id} todoList={todoList} setTodoList={setTodoList} showDelete={showDelete} />
+                <View style={styles.containerHeader}>
+                  <TouchableOpacity onPress={() => {
+                    setEditContent(() => todoList[0])
+                    setIsEditMode(true)
+                  }} style={{ flex: 1, paddingTop: 2 }}>
+                    <Text style={{ color: Colors.greenYellow, fontSize: 30, fontFamily: 'open-sans-bold' }}>
+                      {todoList[0].value.toUpperCase()}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>}
+
             {todoList.length > 1 && <Text style={{ color: Colors.greenC, alignSelf: 'center', fontSize: 30 }}>. . . . .</Text>}
           </View>
 
@@ -168,8 +172,6 @@ export default function App() {
                     {todoList[1].value.toUpperCase()}
                   </Text>
                 </TouchableOpacity>
-                <UpArrow id={todoList[1]?.id}/>
-                {showDelete && <DeleteButton id={todoList[1]?.id} />}
               </View>}
             {todoList.length > 2 && <Text style={{ color: Colors.greenC, alignSelf: 'center', fontSize: 30 }}>. . .</Text>}
           </View>
@@ -177,7 +179,6 @@ export default function App() {
           <View style={styles.lastThreeContainer}>
             {/*CONTAINER THREE CONTAINER THREE CONTAINER THREE CONTAINER THREE */}
             <View style={styles.containerTres}>
-              {showDelete && todoList.length > 2 && <View style={{ alignItems: 'center' }}><DeleteButton id={todoList[2]?.id} /></View>}
               {todoList.length > 2 &&
                 <TouchableOpacity onPress={() => {
                   setEditContent(() => todoList[2])
@@ -191,7 +192,6 @@ export default function App() {
 
             {/*CONTAINER FOUR CONTAINER FOUR CONTAINER FOUR CONTAINER FOUR */}
             <View style={styles.containerQuatro}>
-              {showDelete && todoList.length > 3 && <View style={{ alignItems: 'center' }}><DeleteButton id={todoList[2]?.id} /></View>}
               {todoList.length > 3 &&
                 <TouchableOpacity onPress={() => {
                   setEditContent(() => todoList[3])
@@ -206,7 +206,7 @@ export default function App() {
             {/*CONTAINER FIVE CONTAINER FIVE CONTAINER FIVE CONTAINER FIVE */}
             {todoList.length > 4 ?
               <View style={styles.containerCinco}>
-                {showDelete && todoList.length > 4 && <View style={{ alignItems: 'center' }}><DeleteButton id={todoList[2]?.id} /></View>}
+
                 <TouchableOpacity onPress={() => {
                   setEditContent(() => todoList[4])
                   setIsEditMode(true)

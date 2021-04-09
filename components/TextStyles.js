@@ -29,5 +29,23 @@ export default {
         textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 8,
         fontFamily: 'open-sans-bold',
-    }
+    },
+    headerText1: {
+
+    },
+    descriptionText1: {
+
+    },
+    headerText2: {
+
+    },
+    descriptionText2: {
+
+    },
+    headerText3: {
+
+    },
+    descriptionText3: {
+
+    },
 }
