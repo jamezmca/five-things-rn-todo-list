@@ -85,31 +85,36 @@ export default function App() {
     )
   }
 
-  function UpArrow(props) {
-    if (props.id ===0 ) return null
+  const DownArrow = props => {
+    if (props.id === 4 ) return null
     return (
       <TouchableOpacity onPress={() => {
-        let secondArray = todoList
-        secondArray[props.id + 1] = todoList[props.id]
-        secondArray[props.id] = todoList[props.id + 1]
-        setTodoList(secondArray)
+
       }}>
-        <Text style={{ ...TextStyles.minus }}>^</Text>
+        <Text style={{ ...TextStyles.minus }}>v</Text>
       </TouchableOpacity>
     )
   }
 
-  function DownArrow(props) {
-    let id2 = parseInt(props.id)
-    if (props.id === 4 ) return null
+  function swapDown(id) {
+    let copyArr = todoList
+    copyArr[id].value = todoList[id + 1].value
+    copyArr[id + 1].value = todoList[id].value
+    return copyArr
+  }
+
+  function swapUp(id) {
+    let copyArr = todoList
+    copyArr[id].value = todoList[id - 1].value
+    copyArr[id - 1].value = todoList[id].value
+    return copyArr
+  }
+
+  const UpArrow = props => {
+    if (props.id === 0 ) return null
     return (
       <TouchableOpacity onPress={() => {
-        let secondArray = todoList
-        secondArray[id2 - 1] = todoList[props.id]
-        console.log(secondArray[id2 - 1] + todoList[props.id])
-        secondArray[props.id] = todoList[id2 - 1]
-        //console.log(secondArray[id2+1])
-        setTodoList(secondArray)
+
       }}>
         <Text style={{ ...TextStyles.minus }}>v</Text>
       </TouchableOpacity>
@@ -155,8 +160,8 @@ export default function App() {
                     {todoList[0].value.toUpperCase()}
                   </Text>
                 </TouchableOpacity>
-                <DownArrow id={todoList[0]?.id}/>
-                <UpArrow />
+                <DownArrow id={todoList[0]?.id} />
+
                 {showDelete && <DeleteButton id={todoList[0]?.id} />}
               </View>}
             {todoList.length > 1 && <Text style={{ color: Colors.greenC, alignSelf: 'center', fontSize: 30 }}>. . . . .</Text>}
@@ -180,7 +185,7 @@ export default function App() {
           </View>
 
           <View style={styles.lastThreeContainer}>
-                      {/*CONTAINER THREE CONTAINER THREE CONTAINER THREE CONTAINER THREE */}
+            {/*CONTAINER THREE CONTAINER THREE CONTAINER THREE CONTAINER THREE */}
             <View style={styles.containerTres}>
               {showDelete && todoList.length > 2 && <View style={{ alignItems: 'center' }}><DeleteButton id={todoList[2]?.id} /></View>}
               {todoList.length > 2 &&
@@ -194,7 +199,7 @@ export default function App() {
                 </TouchableOpacity>}
             </View>
 
-          {/*CONTAINER FOUR CONTAINER FOUR CONTAINER FOUR CONTAINER FOUR */}
+            {/*CONTAINER FOUR CONTAINER FOUR CONTAINER FOUR CONTAINER FOUR */}
             <View style={styles.containerQuatro}>
               {showDelete && todoList.length > 3 && <View style={{ alignItems: 'center' }}><DeleteButton id={todoList[2]?.id} /></View>}
               {todoList.length > 3 &&
@@ -208,7 +213,7 @@ export default function App() {
                 </TouchableOpacity>}
             </View>
 
-          {/*CONTAINER FIVE CONTAINER FIVE CONTAINER FIVE CONTAINER FIVE */}
+            {/*CONTAINER FIVE CONTAINER FIVE CONTAINER FIVE CONTAINER FIVE */}
             {todoList.length > 4 ?
               <View style={styles.containerCinco}>
                 {showDelete && todoList.length > 4 && <View style={{ alignItems: 'center' }}><DeleteButton id={todoList[2]?.id} /></View>}
