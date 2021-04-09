@@ -99,13 +99,14 @@ export default function App() {
     )
   }
 
-  const UpArrow = props => {
-    if (props.id === 0) return null
+  const UpArrow = ({id}) => {
+    if (id === 0) return null
     return (
       <TouchableOpacity onPress={() => {
-
+        setTodoList(todoList.map((e) => {
+          return e.id === id ? {id: e.id, value: todoList[id-1].value} : e.id === (id-1) ? {id: e.id, value: todoList[id].value} : {id: e.id, value: e.value}}))
       }}>
-        <Text style={{ ...TextStyles.minus }}>v</Text>
+        <Text style={{...TextStyles.upDown}}><Ionicons name="chevron-up-outline" size={30} /></Text>
       </TouchableOpacity>
     )
   }
@@ -167,6 +168,7 @@ export default function App() {
                     {todoList[1].value.toUpperCase()}
                   </Text>
                 </TouchableOpacity>
+                <UpArrow id={todoList[1]?.id}/>
                 {showDelete && <DeleteButton id={todoList[1]?.id} />}
               </View>}
             {todoList.length > 2 && <Text style={{ color: Colors.greenC, alignSelf: 'center', fontSize: 30 }}>. . .</Text>}
