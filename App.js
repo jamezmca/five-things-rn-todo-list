@@ -22,16 +22,12 @@ import EditInput from './components/EditInput'
 import TextStyles from './components/TextStyles'
 import { Ionicons } from '@expo/vector-icons';
 import Overhaul from './components/Overhaul';
+import ViewOne from './components/ViewOne'
 
-
-//add drag and drop functionality later
-// on long press be able to drag to recycle bin and short press can edit
-// add an undo button too
-
-//[true, id, title, description], [true, id, title, description]....]
 function fetchFonts() {
   return Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans-medium': require('./assets/fonts/friz-quadrata-std-medium.otf'),
     'open-sans-bold': require('./assets/fonts/LifeCraft_Font.ttf')
   });
 };
@@ -41,9 +37,8 @@ export default function App() {
   const [isAddMode, setIsAddMode] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [editContent, setEditContent] = useState('')
+  const [editContent, setEditContent] = useState([])
   const [showDelete, setShowDelete] = useState(false)
-  //const [draggable, setDraggable] = useState(false)
 
   if (!dataLoaded) {
     return <AppLoading
@@ -53,75 +48,30 @@ export default function App() {
     />;
   };
 
-  function reset() {
-    setDraggable(false)
-  }
-
-  const addTodoHandler = todoTitle => {
-    if (todoTitle.length === 0) {
+  const addTodoHandler = (todo) => {
+    if (todo[0].length === 0) {
       return;
     };
-    setTodoList(currentTodos => [...todoList, { id: (todoList.length), value: todoTitle }]);
+    setTodoList(currentTodos => [...todoList, { id: (todoList.length), value: todo[0], valueDescription: todo[1] || ''}]);
     setIsAddMode(false);
   };
 
-  function editTodoHandler(todoTitle) {
-    if (todoTitle.length === 0) {
+  function editTodoHandler(todo) {
+    if (todo[0].length === 0) {
       return removeTodo(editContent)
     }
-    let newArr = todoList.map((e) => editContent.id === e.id ? { id: editContent.id, value: todoTitle } : e)
+    let newArr = todoList.map((e) => editContent.id === e.id ? { id: editContent.id, value: todo[0], valueDescription: todo[1] || '' } : e)
     setTodoList(newArr)
     setIsEditMode(false)
   }
 
-  const DeleteButton = (props) => {
-    return (
-      <TouchableOpacity onPress={() => {
-        let secondArray = todoList.reduce((newList, todo) => {
-          todo.id !== props.id && newList.push({ id: newList.length, value: todo.value })
-          return newList
-        }, [])
-        setTodoList(secondArray)
-      }}>
-        <Text style={{ ...TextStyles.minus }}><Ionicons name="close" size={30} /></Text>
-      </TouchableOpacity>
-    )
-  }
-
-  const DownArrow = ({ id }) => {
-    if (id === 4) return null
-    return (
-      <TouchableOpacity onPress={() => {
-        setTodoList(todoList.map((e) => {
-          return e.id === id ? { id: e.id, value: todoList[id + 1].value } : e.id === (id + 1) ? { id: e.id, value: todoList[id].value } : { id: e.id, value: e.value }
-        }))
-      }}>
-        <Text style={{ ...TextStyles.upDown }}><Ionicons name="chevron-down-outline" size={30} /></Text>
-      </TouchableOpacity>
-    )
-  }
-
-  const UpArrow = ({ id }) => {
-    if (id === 0) return null
-    return (
-      <TouchableOpacity onPress={() => {
-        setTodoList(todoList.map((e) => {
-          return e.id === id ? { id: e.id, value: todoList[id - 1].value } : e.id === (id - 1) ? { id: e.id, value: todoList[id].value } : { id: e.id, value: e.value }
-        }))
-      }}>
-        <Text style={{ ...TextStyles.upDown }}><Ionicons name="chevron-up-outline" size={30} /></Text>
-      </TouchableOpacity>
-    )
-  }
-
-  //add in delete/shift content component and return null if delete is off
   function cancelTodoAdditionHandler() {
     setIsAddMode(false);
   };
 
   function removeTodo(props) {
     let secondArray = todoList.reduce((newList, todo) => {
-      todo.id !== props.id && newList.push({ id: newList.length, value: todo.value })
+      todo.id !== props.id && newList.push({ id: newList.length, value: todo.value, valueDescription: todo.valueDescription })
       return newList
     }, [])
     setTodoList(secondArray)
@@ -132,7 +82,7 @@ export default function App() {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.screen}>
         <TodoInput visible={isAddMode} onAddTodo={addTodoHandler} onCancel={cancelTodoAdditionHandler} />
-        <EditInput visible={isEditMode} onEditTodo={editTodoHandler} title={editContent} />
+        <EditInput visible={isEditMode} onEditTodo={editTodoHandler} content={editContent}/>
         <View style={styles.header}>
           <Text style={styles.headerText}>5do.</Text>
           <TouchableOpacity onPress={() => { setShowDelete(!showDelete) }}><Text style={showDelete ? TextStyles.deleteRed : TextStyles.deleteGreen}>overhaul</Text></TouchableOpacity>
@@ -143,18 +93,9 @@ export default function App() {
           {/*CONTAINER ONE CONTAINER ONE CONTAINER ONE CONTAINER ONE */}
           <View style={styles.containerUno}>
             {todoList.length > 0 &&
-              <View style={{ flexDirection: 'row-reverse', flex: 1 }}>
+              <View style={{ flexDirection: 'row', flex: 1 }}>
+                <ViewOne setEditContent={setEditContent} setIsEditMode={setIsEditMode} todoList={todoList}>{todoList[0]}</ViewOne>
                 <Overhaul id={todoList[0]?.id} todoList={todoList} setTodoList={setTodoList} showDelete={showDelete} />
-                <View style={styles.containerHeader}>
-                  <TouchableOpacity onPress={() => {
-                    setEditContent(() => todoList[0])
-                    setIsEditMode(true)
-                  }} style={{ flex: 1, paddingTop: 2 }}>
-                    <Text style={{ color: Colors.greenYellow, fontSize: 30, fontFamily: 'open-sans-bold' }}>
-                      {todoList[0].value.toUpperCase()}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
               </View>}
 
             {todoList.length > 1 && <Text style={{ color: Colors.greenC, alignSelf: 'center', fontSize: 30 }}>. . . . .</Text>}
@@ -228,7 +169,7 @@ export default function App() {
   );
 };
 
-// color combo dark dark blue background with dark purple 
+// color combo dark dark blue background with dark purple
 //cards and light pink box shadow and white text
 
 const styles = StyleSheet.create({
@@ -240,10 +181,8 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 50
   },
-  containerHeader: {
-    flexDirection: 'row',
-    flex: 1,
-  },
+
+
   header: {
     display: 'flex',
     flexDirection: 'row',

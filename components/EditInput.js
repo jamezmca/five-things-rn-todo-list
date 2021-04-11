@@ -10,21 +10,19 @@ import {
 import Colors from './Colors'
 
 const EditInput = (props) => {
-    const [enteredTodo, setEnteredTodo] = useState('');
+    const [enteredTodo, setEnteredTodo] = useState([]);
 
     useEffect(() => {
-        setEnteredTodo(props.title.value)
+        setEnteredTodo([props.content.value, props.content.valueDescription || ''])
     },[props.visible])
-    //const [enteredTodoDescription, setEnteredTodoDescription] = useState('');
-    // come back and make multiline description with enteredtodotitle
-    //
-    const todoInputTitleHandler = (enteredText) => {
-        setEnteredTodo(enteredText);
+
+    const todoEditTitleHandler = (enteredText) => {
+        setEnteredTodo([`${enteredText}`, enteredTodo[1]]);
     };
 
-    // const todoInputDescriptionHandler = (enteredText) => {
-    //     setEnteredTodo(enteredText);
-    // };
+    const todoEditDescriptionHandler = (enteredText) => {
+        setEnteredTodo([enteredTodo[0] ,`${enteredText}`]);
+    };
 
     function editTodoHandler() {
         props.onEditTodo(enteredTodo);
@@ -36,11 +34,19 @@ const EditInput = (props) => {
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.inputTitle}
-                        onChangeText={todoInputTitleHandler}
-                        value={enteredTodo}
+                        onChangeText={todoEditTitleHandler}
+                        value={enteredTodo[0]}
                         multiline={true}
                         underlineColorAndroid="transparent"
-
+                    />
+                    <TextInput
+                        style={styles.inputDescription}
+                        onChangeText={todoEditDescriptionHandler}
+                        placeholder="description..."
+                        placeholderTextColor='white'
+                        value={enteredTodo[1]}
+                        multiline={true}
+                        underlineColorAndroid="transparent"
                     />
                 </View>
                 <View style={styles.buttonContainer}>
@@ -67,7 +73,17 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginHorizontal: 5,
         borderRadius: 2,
-
+        fontFamily: 'open-sans'
+    },
+    inputDescription: {
+        color: 'white',
+        fontSize: 15,
+        paddingHorizontal: 30,
+        backgroundColor: 'transparent',
+        marginBottom: 10,
+        marginHorizontal: 5,
+        borderRadius: 2,
+        fontFamily: 'open-sans'
     },
     buttonContainer: {
         display: 'flex',

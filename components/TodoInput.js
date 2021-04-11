@@ -10,21 +10,26 @@ import {
 import Colors from './Colors'
 
 const TodoInput = props => {
-    const [enteredTodo, setEnteredTodo] = useState('');
+    const [enteredTodo, setEnteredTodo] = useState([]);
     //const [enteredTodoDescription, setEnteredTodoDescription] = useState('');
     // come back and make multiline description with enteredtodotitle
     //
     const todoInputTitleHandler = (enteredText) => {
-        setEnteredTodo(enteredText);
+        setEnteredTodo([`${enteredText}`, enteredTodo[1]]);
     };
 
-    // const todoInputDescriptionHandler = (enteredText) => {
-    //     setEnteredTodo(enteredText);
-    // };
+    const todoInputDescriptionHandler = (enteredText) => {
+        setEnteredTodo([enteredTodo[0], `${enteredText}`]);
+    };
 
     function addTodoHandler() {
         props.onAddTodo(enteredTodo);
-        setEnteredTodo('');
+        setEnteredTodo([]);
+    }
+
+    function cancelTodoHandler() {
+        props.onCancel()
+        setEnteredTodo([])
     }
 
     return (
@@ -32,18 +37,27 @@ const TodoInput = props => {
             <View style={styles.modalScreen}>
                 <View style={styles.inputContainer}>
                     <TextInput
-                        placeholder="Title..."
+                        placeholder="title..."
                         placeholderTextColor='white'
                         style={styles.inputTitle}
                         onChangeText={todoInputTitleHandler}
-                        value={enteredTodo}
+                        value={enteredTodo[0]}
+                        multiline={true}
+                        underlineColorAndroid="transparent"
+                    />
+                    <TextInput
+                        placeholder="description..."
+                        placeholderTextColor='white'
+                        style={styles.inputDescription}
+                        onChangeText={todoInputDescriptionHandler}
+                        value={enteredTodo[1]}
                         multiline={true}
                         underlineColorAndroid="transparent"
                     />
                 </View>
                 <View style={styles.buttonContainer}>
                     <View style={styles.button}>
-                        <Button title="cancel" color={Colors.darkerGrey} onPress={props.onCancel} />
+                        <Button title="cancel" color={Colors.darkerGrey} onPress={cancelTodoHandler} />
                     </View>
                     <View style={styles.button}>
                         <Button title="add" color={Colors.darkerGrey} onPress={addTodoHandler} />
@@ -68,7 +82,17 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginHorizontal: 5,
         borderRadius: 2,
-
+        fontFamily: 'open-sans'
+    },
+    inputDescription: {
+        color: 'white',
+        fontSize: 15,
+        paddingHorizontal: 30,
+        backgroundColor: 'transparent',
+        marginBottom: 10,
+        marginHorizontal: 5,
+        borderRadius: 2,
+        fontFamily: 'open-sans'
     },
     buttonContainer: {
         display: 'flex',

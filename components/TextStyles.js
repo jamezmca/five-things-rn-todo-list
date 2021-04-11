@@ -18,34 +18,7 @@ export default {
         textShadowRadius: 30,
         paddingRight: 10
     },
-    minus: {
-        textShadowColor: Colors.greenF,
-        textShadowOffset: { width: 0, height: 0 },
-        textShadowRadius: 8,
-        fontFamily: 'open-sans-bold',
-    },
-    upDown: {
-        textShadowColor: Colors.greenF,
-        textShadowOffset: { width: 0, height: 0 },
-        textShadowRadius: 8,
-        fontFamily: 'open-sans-bold',
-    },
-    headerText1: {
-
-    },
-    descriptionText1: {
-
-    },
-    headerText2: {
-
-    },
-    descriptionText2: {
-
-    },
-    headerText3: {
-
-    },
-    descriptionText3: {
-
-    },
+    containerContent: {
+        flex: 1,
+    }
 }
