@@ -15,7 +15,7 @@ const Overhaul = ({ id, todoList, setTodoList, showDelete }) => {
         return (
             <TouchableOpacity onPress={() => {
                 let secondArray = todoList.reduce((newList, todo) => {
-                    todo.id !== id && newList.push({ id: newList.length, value: todo.value })
+                    todo.id !== id && newList.push({ id: newList.length, value: todo.value, valueDescription: todo.valueDescription })
                     return newList
                 }, [])
                 setTodoList(secondArray)
@@ -26,41 +26,67 @@ const Overhaul = ({ id, todoList, setTodoList, showDelete }) => {
     }
 
     const DownArrow = ({ id }) => {
-        if (id === 4) return null
+        if (id > 1) return null
+        //if (id >= todoList.length - 1) return null
         return (
             <TouchableOpacity onPress={() => {
+                if (id >= todoList.length - 1) return
                 setTodoList(todoList.map((e) => {
-                    return e.id === id ? { id: e.id, value: todoList[id + 1].value } : e.id === (id + 1) ? { id: e.id, value: todoList[id].value } : { id: e.id, value: e.value }
+                    return e.id === id ? { id: e.id, value: todoList[id + 1].value, valueDescription: todoList[id + 1].valueDescription } : e.id === (id + 1) ? { id: e.id, value: todoList[id].value, valueDescription: todoList[id].valueDescription } : { id: e.id, value: e.value, valueDescription: e.valueDescription }
                 }))
             }}>
-                <Text style={styles.upDown }><Ionicons name="chevron-down-outline" size={30} /></Text>
+                <Text style={styles.upDown}><Ionicons name="chevron-down-outline" size={30} /></Text>
             </TouchableOpacity>
         )
     }
 
     const UpArrow = ({ id }) => {
-        if (id === 0) return null
+        if (id > 1) {
+            return (
+                <TouchableOpacity onPress={() => {
+                    if (id === 0) return
+                    setTodoList(todoList.map((e) => {
+                        return e.id === id ? { id: e.id, value: todoList[1].value, valueDescription: todoList[1].valueDescription } : e.id === (1) ? { id: e.id, value: todoList[id].value, valueDescription: todoList[id].valueDescription } : { id: e.id, value: e.value, valueDescription: e.valueDescription }
+                    }))
+                }}>
+                    <Text style={styles.upDown}><Ionicons name="chevron-up-outline" size={30} /></Text>
+                </TouchableOpacity>
+            )
+        }
         return (
             <TouchableOpacity onPress={() => {
+                if (id === 0) return
                 setTodoList(todoList.map((e) => {
-                    return e.id === id ? { id: e.id, value: todoList[id - 1].value } : e.id === (id - 1) ? { id: e.id, value: todoList[id].value } : { id: e.id, value: e.value }
+                    return e.id === id ? { id: e.id, value: todoList[id - 1].value, valueDescription: todoList[id - 1].valueDescription } : e.id === (id - 1) ? { id: e.id, value: todoList[id].value, valueDescription: todoList[id].valueDescription } : { id: e.id, value: e.value, valueDescription: e.valueDescription }
                 }))
             }}>
-                <Text style={styles.upDown }><Ionicons name="chevron-up-outline" size={30} /></Text>
+                <Text style={styles.upDown}><Ionicons name="chevron-up-outline" size={30} /></Text>
             </TouchableOpacity>
         )
     }
 
     if (showDelete === false) return null
 
+    if (id > 1) {
+        return (
+            <View style={styles.topNav}>
+                <View style={{}}>
+                    <DeleteButton id={id}/>
+                </View>
+                <View style={{flex: 1}}>
+                    <UpArrow id={id}/>
+                </View>
+            </View>
+        )
+    }
+
     return (
         <View style={styles.sideNav}>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
                 <DeleteButton id={id} />
             </View>
             <View style={styles.navigation}>
                 <UpArrow id={id} />
-                <DownArrow />
                 <DownArrow id={id} />
             </View>
         </View>
@@ -68,11 +94,13 @@ const Overhaul = ({ id, todoList, setTodoList, showDelete }) => {
 }
 
 const styles = StyleSheet.create({
-    sideNav: {
-       
+    topNav: {
+        flexDirection: 'row',
+        flex: 1, 
+        alignItems: 'center'
     },
     navigation: {
-        flex: 1,
+        flex: 2,
     },
     minus: {
         textShadowColor: Colors.greenF,

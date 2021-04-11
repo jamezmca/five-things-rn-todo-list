@@ -34,6 +34,7 @@ export default {
     greenYellow: 'rgb(242, 246, 107)',
     darkGrey: '#1b1b1b',
     darkerGrey: '#333533',
-    darkestGrey: '#2a2a2a'
+    darkestGrey: '#2a2a2a',
+    darkesterGrey: 'hsl(160, 30%, 5%)'
     
 }

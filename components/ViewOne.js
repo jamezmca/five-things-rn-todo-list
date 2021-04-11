@@ -8,7 +8,7 @@ const ViewOne = ({ setEditContent, setIsEditMode, children, todoList }) => {
     return (
         <View style={TextStyles.containerContent}>
             <TouchableOpacity onPress={() => {
-                setEditContent(() => todoList[0])
+                setEditContent(() => todoList[children.id])
                 setIsEditMode(true)
             }} style={{ flex: 1, paddingTop: 2 }}>
                 <Text style={styles.titleText}>

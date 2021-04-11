@@ -5,7 +5,8 @@ import {
     Button,
     StyleSheet,
     TextInput,
-    Modal
+    Modal,
+    ScrollView
 } from 'react-native';
 import Colors from './Colors'
 
@@ -14,14 +15,14 @@ const EditInput = (props) => {
 
     useEffect(() => {
         setEnteredTodo([props.content.value, props.content.valueDescription || ''])
-    },[props.visible])
+    }, [props.visible])
 
     const todoEditTitleHandler = (enteredText) => {
         setEnteredTodo([`${enteredText}`, enteredTodo[1]]);
     };
 
     const todoEditDescriptionHandler = (enteredText) => {
-        setEnteredTodo([enteredTodo[0] ,`${enteredText}`]);
+        setEnteredTodo([enteredTodo[0], `${enteredText}`]);
     };
 
     function editTodoHandler() {
@@ -32,22 +33,24 @@ const EditInput = (props) => {
         <Modal visible={props.visible} animationType="fade" transparent={true}>
             <View style={styles.modalScreen}>
                 <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.inputTitle}
-                        onChangeText={todoEditTitleHandler}
-                        value={enteredTodo[0]}
-                        multiline={true}
-                        underlineColorAndroid="transparent"
-                    />
-                    <TextInput
-                        style={styles.inputDescription}
-                        onChangeText={todoEditDescriptionHandler}
-                        placeholder="description..."
-                        placeholderTextColor='white'
-                        value={enteredTodo[1]}
-                        multiline={true}
-                        underlineColorAndroid="transparent"
-                    />
+                    <ScrollView>
+                        <TextInput
+                            style={styles.inputTitle}
+                            onChangeText={todoEditTitleHandler}
+                            value={enteredTodo[0]}
+                            multiline={true}
+                            underlineColorAndroid="transparent"
+                        />
+                        <TextInput
+                            style={styles.inputDescription}
+                            onChangeText={todoEditDescriptionHandler}
+                            placeholder="description..."
+                            placeholderTextColor='white'
+                            value={enteredTodo[1]}
+                            multiline={true}
+                            underlineColorAndroid="transparent"
+                        />
+                    </ScrollView>
                 </View>
                 <View style={styles.buttonContainer}>
                     <View style={styles.button}>
@@ -100,11 +103,11 @@ const styles = StyleSheet.create({
         width: 100,
     },
     modalScreen: {
-        backgroundColor: Colors.darkGrey,
+        backgroundColor: Colors.darkesterGrey,
         borderColor: Colors.greenB,
         borderWidth: 1,
         margin: 15,
-        flex: 1, 
+        flex: 1,
         borderRadius: 5
     }
 });

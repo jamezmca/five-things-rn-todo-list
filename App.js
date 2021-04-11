@@ -10,8 +10,6 @@ import {
   Alert,
   TouchableOpacity,
   SafeAreaView,
-  PanResponder,
-  Animated
 } from 'react-native';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
@@ -23,6 +21,8 @@ import TextStyles from './components/TextStyles'
 import { Ionicons } from '@expo/vector-icons';
 import Overhaul from './components/Overhaul';
 import ViewOne from './components/ViewOne'
+import ViewTwo from './components/ViewTwo'
+import ViewThree from './components/ViewThree'
 
 function fetchFonts() {
   return Font.loadAsync({
@@ -52,7 +52,7 @@ export default function App() {
     if (todo[0].length === 0) {
       return;
     };
-    setTodoList(currentTodos => [...todoList, { id: (todoList.length), value: todo[0], valueDescription: todo[1] || ''}]);
+    setTodoList(currentTodos => [...todoList, { id: (todoList.length), value: todo[0], valueDescription: todo[1] || '' }]);
     setIsAddMode(false);
   };
 
@@ -77,12 +77,14 @@ export default function App() {
     setTodoList(secondArray)
     setIsEditMode(false)
   }
+
+  const rowTwoFlex = showDelete ? 2 : 3
   // HERE BEGINS THE RETURN IF YOU'RE READING THROUGH AND GET LOST THIS IS WHERE THE RENDER JSX IS MY HOMIE UR WELCOME!!!
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.screen}>
         <TodoInput visible={isAddMode} onAddTodo={addTodoHandler} onCancel={cancelTodoAdditionHandler} />
-        <EditInput visible={isEditMode} onEditTodo={editTodoHandler} content={editContent}/>
+        <EditInput visible={isEditMode} onEditTodo={editTodoHandler} content={editContent} />
         <View style={styles.header}>
           <Text style={styles.headerText}>5do.</Text>
           <TouchableOpacity onPress={() => { setShowDelete(!showDelete) }}><Text style={showDelete ? TextStyles.deleteRed : TextStyles.deleteGreen}>overhaul</Text></TouchableOpacity>
@@ -104,63 +106,48 @@ export default function App() {
           {/*CONTAINER TWO CONTAINER TWO CONTAINER TWO CONTAINER TWO */}
           <View style={styles.containerDos}>
             {todoList.length > 1 &&
-              <View style={styles.containerHeader}>
-                <TouchableOpacity onPress={() => {
-                  setEditContent(() => todoList[1])
-                  setIsEditMode(true)
-                }} style={{ flex: 1, paddingTop: 2 }}>
-                  <Text style={{ color: Colors.greenYellow, fontSize: 25, fontFamily: 'open-sans-bold' }}>
-                    {todoList[1].value.toUpperCase()}
-                  </Text>
-                </TouchableOpacity>
+              <View style={{ flexDirection: 'row', flex: 1 }}>
+                <ViewTwo setEditContent={setEditContent} setIsEditMode={setIsEditMode} todoList={todoList}>{todoList[1]}</ViewTwo>
+                <Overhaul id={todoList[1]?.id} todoList={todoList} setTodoList={setTodoList} showDelete={showDelete} />
               </View>}
             {todoList.length > 2 && <Text style={{ color: Colors.greenC, alignSelf: 'center', fontSize: 30 }}>. . .</Text>}
           </View>
 
-          <View style={styles.lastThreeContainer}>
-            {/*CONTAINER THREE CONTAINER THREE CONTAINER THREE CONTAINER THREE */}
-            <View style={styles.containerTres}>
-              {todoList.length > 2 &&
-                <TouchableOpacity onPress={() => {
-                  setEditContent(() => todoList[2])
-                  setIsEditMode(true)
-                }} style={{ flex: 1, paddingTop: 4 }}>
-                  <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
-                    {todoList[2].value.toUpperCase()}
-                  </Text>
-                </TouchableOpacity>}
-            </View>
-
-            {/*CONTAINER FOUR CONTAINER FOUR CONTAINER FOUR CONTAINER FOUR */}
-            <View style={styles.containerQuatro}>
-              {todoList.length > 3 &&
-                <TouchableOpacity onPress={() => {
-                  setEditContent(() => todoList[3])
-                  setIsEditMode(true)
-                }} style={{ flex: 1, paddingTop: 4 }}>
-                  <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
-                    {todoList[3].value.toUpperCase()}
-                  </Text>
-                </TouchableOpacity>}
-            </View>
-
-            {/*CONTAINER FIVE CONTAINER FIVE CONTAINER FIVE CONTAINER FIVE */}
-            {todoList.length > 4 ?
-              <View style={styles.containerCinco}>
-
-                <TouchableOpacity onPress={() => {
-                  setEditContent(() => todoList[4])
-                  setIsEditMode(true)
-                }} style={{ flex: 1, paddingTop: 4 }}>
-                  <Text style={{ color: Colors.greenYellow, fontSize: 18, fontFamily: 'open-sans-bold' }}>
-                    {todoList[4].value.toUpperCase()}
-                  </Text>
-                </TouchableOpacity>
-              </View> :
-              <View style={styles.buttonContainer}>
-                <AddButton onPress={() => { setIsAddMode(true) }}>+</AddButton>
+          <View style={styles.lastThreeContainerContainer}>
+            {showDelete && todoList.length > 2 && <View style={{ flexDirection: 'row' }}>
+              {todoList.length > 2 ? <Overhaul id={todoList[2]?.id} todoList={todoList} setTodoList={setTodoList} showDelete={showDelete} /> : <View style={{ flex: 1 }}></View>}
+              {todoList.length > 3 ? <Overhaul id={todoList[3]?.id} todoList={todoList} setTodoList={setTodoList} showDelete={showDelete} /> : <View style={{ flex: 1 }}></View>}
+              {todoList.length > 4 ? <Overhaul id={todoList[4]?.id} todoList={todoList} setTodoList={setTodoList} showDelete={showDelete} /> : <View style={{ flex: 1 }}></View>}
+            </View>}
+            {/* CONTAINER OF CONTAINER THREE FOUR AND FIVE CONTAINER OF CONTAINER THREE FOUR AND FIVE */}
+            <View style={styles.lastThreeContainer}>
+              {/*CONTAINER THREE CONTAINER THREE CONTAINER THREE CONTAINER THREE */}
+              <View style={styles.containerTres}>
+                {todoList.length > 2 &&
+                  <View style={{ flex: 1 }}>
+                    <ViewThree setEditContent={setEditContent} setIsEditMode={setIsEditMode} todoList={todoList}>{todoList[2]}</ViewThree>
+                  </View>}
               </View>
-            }
+
+              {/*CONTAINER FOUR CONTAINER FOUR CONTAINER FOUR CONTAINER FOUR */}
+              <View style={styles.containerQuatro}>
+                {todoList.length > 3 &&
+                  <View style={{ flex: 1 }}>
+                    <ViewThree setEditContent={setEditContent} setIsEditMode={setIsEditMode} todoList={todoList}>{todoList[3]}</ViewThree>
+                  </View>}
+              </View>
+
+              {/*CONTAINER FIVE CONTAINER FIVE CONTAINER FIVE CONTAINER FIVE */}
+              {todoList.length > 4 ?
+                <View style={styles.containerCinco}>
+                  <View style={{ flex: 1 }}>
+                    <ViewThree setEditContent={setEditContent} setIsEditMode={setIsEditMode} todoList={todoList}>{todoList[4]}</ViewThree>
+                  </View>
+                </View> :
+                <View style={styles.buttonContainer}>
+                  <AddButton onPress={() => { setIsAddMode(true) }}>+</AddButton>
+                </View>}
+            </View>
           </View>
         </View>
         <StatusBar style="auto" />
@@ -181,8 +168,6 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 50
   },
-
-
   header: {
     display: 'flex',
     flexDirection: 'row',
@@ -214,14 +199,16 @@ const styles = StyleSheet.create({
   containerUno: {
     flex: 5,
     marginTop: 5
-
   },
   containerDos: {
-    flex: 3,
+    flex: 4,
     marginTop: 5
   },
+  lastThreeContainerContainer: {
+    flex: 3,
+  },
   lastThreeContainer: {
-    flex: 2,
+    flex: 1,
     flexDirection: 'row',
   },
   containerTres: {
