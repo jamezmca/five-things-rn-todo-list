@@ -67,14 +67,16 @@ const Overhaul = ({ id, todoList, setTodoList, showDelete }) => {
 
     if (showDelete === false) return null
 
+
+
     if (id > 1) {
         return (
             <View style={styles.topNav}>
                 <View style={{}}>
-                    <DeleteButton id={id}/>
+                    <DeleteButton id={id} />
                 </View>
                 <View>
-                    <UpArrow id={id}/>
+                    <UpArrow id={id} />
                 </View>
             </View>
         )
@@ -85,10 +87,11 @@ const Overhaul = ({ id, todoList, setTodoList, showDelete }) => {
             <View style={{ flex: 1 }}>
                 <DeleteButton id={id} />
             </View>
-            <View style={styles.navigation}>
-                <UpArrow id={id} />
-                <DownArrow id={id} />
-            </View>
+            {todoList.length !== 1 &&
+                <View style={styles.navigation}>
+                    <UpArrow id={id} />
+                    <DownArrow id={id} />
+                </View>}
         </View>
     )
 }
@@ -96,7 +99,7 @@ const Overhaul = ({ id, todoList, setTodoList, showDelete }) => {
 const styles = StyleSheet.create({
     topNav: {
         flexDirection: 'row',
-        flex: 1, 
+        flex: 1,
         alignItems: 'center'
     },
     navigation: {
