@@ -6,7 +6,7 @@ import TextStyles from './TextStyles'
 
 const ViewOne = ({ setEditContent, setIsEditMode, children, todoList }) => {
     return (
-        <ScrollView style={TextStyles.containerContent}>
+        <View style={TextStyles.containerContent}>
             <TouchableOpacity onPress={() => {
                 setEditContent(() => todoList[children.id])
                 setIsEditMode(true)
@@ -18,7 +18,7 @@ const ViewOne = ({ setEditContent, setIsEditMode, children, todoList }) => {
                     {children.valueDescription}
                 </Text>
             </TouchableOpacity>
-        </ScrollView>
+        </View>
     )
 }
 
