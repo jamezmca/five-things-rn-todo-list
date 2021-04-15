@@ -1,12 +1,12 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import Colors from './Colors'
 import Overhaul from './Overhaul'
 import TextStyles from './TextStyles'
 
 const ViewOne = ({ setEditContent, setIsEditMode, children, todoList }) => {
     return (
-        <View style={TextStyles.containerContent}>
+        <ScrollView style={TextStyles.containerContent}>
             <TouchableOpacity onPress={() => {
                 setEditContent(() => todoList[children.id])
                 setIsEditMode(true)
@@ -18,7 +18,7 @@ const ViewOne = ({ setEditContent, setIsEditMode, children, todoList }) => {
                     {children.valueDescription}
                 </Text>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     )
 }
 

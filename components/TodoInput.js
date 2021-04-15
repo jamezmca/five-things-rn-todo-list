@@ -11,7 +11,7 @@ import {
 import Colors from './Colors'
 
 const TodoInput = props => {
-    const [enteredTodo, setEnteredTodo] = useState([]);
+    const [enteredTodo, setEnteredTodo] = useState(['','']);
     //const [enteredTodoDescription, setEnteredTodoDescription] = useState('');
     // come back and make multiline description with enteredtodotitle
     //
@@ -25,12 +25,12 @@ const TodoInput = props => {
 
     function addTodoHandler() {
         props.onAddTodo(enteredTodo);
-        setEnteredTodo([]);
+        setEnteredTodo(['','']);
     }
 
     function cancelTodoHandler() {
         props.onCancel()
-        setEnteredTodo([])
+        setEnteredTodo(['',''])
     }
 
     return (

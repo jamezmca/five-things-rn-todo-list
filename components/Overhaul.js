@@ -73,7 +73,7 @@ const Overhaul = ({ id, todoList, setTodoList, showDelete }) => {
                 <View style={{}}>
                     <DeleteButton id={id}/>
                 </View>
-                <View style={{flex: 1}}>
+                <View>
                     <UpArrow id={id}/>
                 </View>
             </View>

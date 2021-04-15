@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import TodoInput from './components/TodoInput';
@@ -39,6 +40,34 @@ export default function App() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editContent, setEditContent] = useState([])
   const [showDelete, setShowDelete] = useState(false)
+
+  const storeData = async () => {
+    if (todoList == []) return
+    try {
+      const jsonValue = JSON.stringify(todoList)
+      await AsyncStorage.setItem('@storage_Key', jsonValue)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@storage_Key')
+      if (jsonValue != null) return setTodoList(JSON.parse(jsonValue))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+  useEffect(() => {
+    storeData()
+  }, [todoList])
+
 
   if (!dataLoaded) {
     return <AppLoading
