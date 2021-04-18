@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "five-things-rn-todo-list",
-    "slug": "five-things-rn-todo-list",
+    "name": "Fivedo",
+    "slug": "fivedo",
+    "description": "A prioritized five item todo list.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/fivedo.jpeg",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -20,10 +21,7 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "package": "com.jamesmcarthur.fivedo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
