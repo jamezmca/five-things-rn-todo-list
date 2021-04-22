@@ -5,11 +5,15 @@
     "description": "A prioritized five item todo list.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/fivedo.jpeg",
+    "icon": "./assets/fivedo.PNG",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/iconproper.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#171717"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,10 +22,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.smoljames.fivedo",
+      "supportsTablet": true,
+      "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "com.jamesmcarthur.fivedo"
+      "package": "com.smoljames.fivedo",
+      "versionCode": 1,
+      "permissions": []
     },
     "web": {
       "favicon": "./assets/favicon.png"
